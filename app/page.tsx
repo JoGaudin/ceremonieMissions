@@ -230,7 +230,7 @@ const App: React.FC = () => {
               onClick={navigateHome}
               className="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors mb-2"
             >
-              <ChevronRight className="rotate-180" size={16} /> Retour au Dashboard
+              <ChevronRight className="rotate-180" size={16} /> Retour au Menu
             </button>
 
             {/* Profile Header */}
