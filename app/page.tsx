@@ -16,7 +16,25 @@ import {
   Clock
 } from 'lucide-react';
 
-const USERS_DATA = [
+// Définition des interfaces pour le typage
+interface Mission {
+  id: number;
+  text: string;
+  icon: React.ReactNode;
+  difficulty: string;
+}
+
+interface User {
+  id: string;
+  name: string;
+  role: string;
+  status: string;
+  xp: number;
+  avatar: string;
+  missions: Mission[];
+}
+
+const USERS_DATA: User[] = [
   {
     id: 'laurine',
     name: 'Laurine',
@@ -97,11 +115,11 @@ const USERS_DATA = [
   }
 ];
 
-const App = () => {
-  const [currentPage, setCurrentPage] = useState('home');
-  const [selectedUser, setSelectedUser] = useState(null);
+const App: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState<'home' | 'profile'>('home');
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
-  const navigateToUser = (user) => {
+  const navigateToUser = (user: User) => {
     setSelectedUser(user);
     setCurrentPage('profile');
   };
@@ -196,21 +214,21 @@ const App = () => {
               <div className="h-24 bg-gradient-to-r from-blue-600 to-purple-700"></div>
               <div className="px-6 pb-6 relative">
                 <div className="w-20 h-20 bg-slate-800 border-4 border-[#121214] rounded-2xl flex items-center justify-center font-bold text-2xl text-white absolute -top-10 shadow-2xl">
-                  {selectedUser.avatar}
+                  {selectedUser?.avatar}
                 </div>
                 <div className="pt-12 flex justify-between items-start">
                   <div>
-                    <h2 className="text-2xl font-black">{selectedUser.name}</h2>
-                    <p className="text-blue-400 font-medium">{selectedUser.role}</p>
+                    <h2 className="text-2xl font-black">{selectedUser?.name}</h2>
+                    <p className="text-blue-400 font-medium">{selectedUser?.role}</p>
                   </div>
                   <div className="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                    {selectedUser.status}
+                    {selectedUser?.status}
                   </div>
                 </div>
                 <div className="mt-4 flex gap-6 border-t border-white/5 pt-4">
                   <div>
                     <p className="text-[10px] uppercase text-slate-500 font-bold">Niveau</p>
-                    <p className="font-mono text-lg">{(selectedUser.xp / 100).toFixed(0)}</p>
+                    <p className="font-mono text-lg">{(selectedUser?.xp! / 100).toFixed(0)}</p>
                   </div>
                   <div>
                     <p className="text-[10px] uppercase text-slate-500 font-bold">Points de Vie</p>
@@ -229,7 +247,7 @@ const App = () => {
                 <h3 className="font-bold">Journal des Quêtes</h3>
               </div>
 
-              {selectedUser.missions.map((mission) => (
+              {selectedUser?.missions.map((mission) => (
                 <div
                   key={mission.id}
                   className="bg-[#121214] border-l-4 border-l-blue-500 border-y border-r border-white/5 p-5 rounded-r-xl group"
@@ -265,7 +283,7 @@ const App = () => {
 
             {/* LinkedIn Style Interaction */}
             <div className="bg-[#121214] border border-white/5 rounded-xl p-4 flex items-center justify-between">
-              <p className="text-xs text-slate-400 italic">Voulez-vous féliciter {selectedUser.name} pour sa progression ?</p>
+              <p className="text-xs text-slate-400 italic">Voulez-vous féliciter {selectedUser?.name} pour sa progression ?</p>
               <button className="text-xs font-bold text-blue-400 hover:underline">Recommander</button>
             </div>
           </div>
