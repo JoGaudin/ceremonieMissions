@@ -13,7 +13,8 @@ import {
   Brain,
   Swords,
   Lock,
-  Clock
+  Clock,
+  Languages
 } from 'lucide-react';
 
 // Définition des interfaces pour le typage
@@ -111,6 +112,17 @@ const USERS_DATA: User[] = [
     avatar: 'AB',
     missions: [
       { id: 8, text: 'Arriver avant 23h', icon: <Clock className="text-cyan-400" />, difficulty: 'Contre-la-montre' }
+    ]
+  },
+  {
+    id: 'emma',
+    name: 'Emma',
+    role: 'La Sudiste',
+    status: 'Bronzette',
+    xp: 100,
+    avatar: 'EM',
+    missions: [
+      { id: 9, text: 'Parler qu\'avec l\'accent du sud après 22h', icon: <Languages className="text-cyan-400" />, difficulty: 'Gaté' }
     ]
   }
 ];
