@@ -14,7 +14,11 @@ import {
   Swords,
   Lock,
   Clock,
-  Languages
+  Languages,
+  Music,
+  Footprints,
+  VenusAndMars,
+  Cat
 } from 'lucide-react';
 
 // Définition des interfaces pour le typage
@@ -23,6 +27,7 @@ interface Mission {
   text: string;
   icon: React.ReactNode;
   difficulty: string;
+  successRate: string;
 }
 
 interface User {
@@ -44,7 +49,8 @@ const USERS_DATA: User[] = [
     xp: 1200,
     avatar: 'LR',
     missions: [
-      { id: 1, text: 'Ne pas pécho de mecs', icon: <Flame className="text-orange-500" />, difficulty: 'Légendaire' }
+      { id: 1, text: 'Ne pas pécho de mecs', icon: <Flame className="text-orange-500" />, difficulty: 'Légendaire', successRate: '70%' },
+      { id: 10, text: 'Se souvenir de la soirée', icon: <Brain className="text-orange-500" />, difficulty: 'Cognitive', successRate: '50%' }
     ]
   },
   {
@@ -55,7 +61,8 @@ const USERS_DATA: User[] = [
     xp: 850,
     avatar: 'SZ',
     missions: [
-      { id: 2, text: 'Ne pas boire plus d\'un verre de champagne', icon: <Wine className="text-yellow-400" />, difficulty: 'Difficile' }
+      { id: 2, text: 'Ne pas boire plus d\'un verre de champagne', icon: <Wine className="text-yellow-400" />, difficulty: 'Difficile', successRate: '0%' },
+      { id: 11, text: 'Danser sur "Y QUE FUE"', icon: <Music className="text-yellow-400" />, difficulty: 'Media', successRate: '100%' }
     ]
   },
   {
@@ -66,8 +73,8 @@ const USERS_DATA: User[] = [
     xp: 900,
     avatar: 'MT',
     missions: [
-      { id: 3, text: 'Ne pas déchirer sa chemise', icon: <Shirt className="text-blue-400" />, difficulty: 'Modéré' },
-      { id: 4, text: 'Réussir à parler', icon: <Target className="text-green-400" />, difficulty: 'Épique' }
+      { id: 3, text: 'Ne pas déchirer sa chemise', icon: <Shirt className="text-blue-400" />, difficulty: 'Modéré', successRate: '80%' },
+      { id: 4, text: 'Réussir à parler', icon: <Target className="text-green-400" />, difficulty: 'Épique', successRate: '100%' }
     ]
   },
   {
@@ -78,7 +85,8 @@ const USERS_DATA: User[] = [
     xp: 1100,
     avatar: 'LK',
     missions: [
-      { id: 5, text: 'Ne pas gamberger', icon: <Brain className="text-purple-400" />, difficulty: 'Impossible' }
+      { id: 5, text: 'Ne pas gamberger', icon: <Brain className="text-purple-400" />, difficulty: 'Impossible', successRate: '30%' },
+      { id: 14, text: 'Finir torse nu avec Tigrou', icon: <Cat className="text-purple-400" />, difficulty: 'Légendaire', successRate: '90%' }
     ]
   },
   {
@@ -89,7 +97,8 @@ const USERS_DATA: User[] = [
     xp: 1500,
     avatar: 'JH',
     missions: [
-      { id: 6, text: 'Ne pas se battre', icon: <Swords className="text-red-500" />, difficulty: 'Légendaire' }
+      { id: 6, text: 'Ne pas se battre', icon: <Swords className="text-red-500" />, difficulty: 'Légendaire', successRate: '99%' },
+      { id: 13, text: 'Ne pas ken dans les toilettes', icon: <VenusAndMars className="text-red-500" />, difficulty: 'Impossible', successRate: '0,01%' }
     ]
   },
   {
@@ -100,7 +109,8 @@ const USERS_DATA: User[] = [
     xp: 2000,
     avatar: 'DN',
     missions: [
-      { id: 7, text: 'Ne pas se faire toucher les fesses excepté Johan', icon: <Lock className="text-pink-400" />, difficulty: 'Haute Sécurité' }
+      { id: 7, text: 'Ne pas se faire toucher les fesses excepté Johan', icon: <Lock className="text-pink-400" />, difficulty: 'Haute Sécurité', successRate: '100%' },
+      { id: 12, text: 'Réussir à marcher avec ses talons en fin de soirée', icon: <Footprints className="text-pink-400" />, difficulty: 'Endurance', successRate: '80%' }
     ]
   },
   {
@@ -111,7 +121,8 @@ const USERS_DATA: User[] = [
     xp: 700,
     avatar: 'AB',
     missions: [
-      { id: 8, text: 'Arriver avant 23h', icon: <Clock className="text-cyan-400" />, difficulty: 'Contre-la-montre' }
+      { id: 8, text: 'Arriver avant 23h', icon: <Clock className="text-cyan-400" />, difficulty: 'Contre-la-montre', successRate: '0%' },
+      { id: 15, text: 'Lancer les Corons', icon: <Music className="text-cyan-400" />, difficulty: 'Brassard', successRate: '55%' }
     ]
   },
   {
@@ -122,7 +133,8 @@ const USERS_DATA: User[] = [
     xp: 100,
     avatar: 'EM',
     missions: [
-      { id: 9, text: 'Parler qu\'avec l\'accent du sud après 22h', icon: <Languages className="text-cyan-400" />, difficulty: 'Gaté' }
+      { id: 9, text: 'Parler qu\'avec l\'accent du sud après 22h', icon: <Languages className="text-cyan-400" />, difficulty: 'Gaté', successRate: '80%' },
+      { id: 16, text: 'Se mettre une murge avec les darons', icon: <Wine className="text-cyan-400" />, difficulty: 'Légendaire', successRate: '100%' }
     ]
   }
 ];
@@ -265,7 +277,7 @@ const App: React.FC = () => {
                   className="bg-[#121214] border-l-4 border-l-blue-500 border-y border-r border-white/5 p-5 rounded-r-xl group"
                 >
                   <div className="flex gap-4">
-                    <div className="mt-1 p-3 bg-white/5 rounded-lg">
+                    <div className="mt-1 p-3 bg-white/5 rounded-lg flex items-center justify-center">
                       {mission.icon}
                     </div>
                     <div className="flex-1">
@@ -281,7 +293,7 @@ const App: React.FC = () => {
                       <div className="mt-4 flex items-center justify-between">
                         <div className="flex items-center gap-1 text-[10px] text-slate-500">
                           <ShieldAlert size={12} />
-                          <span>Taux de réussite : 45%</span>
+                          <span>Taux de réussite : {mission.successRate}</span>
                         </div>
                         <button className="text-[10px] font-bold text-white bg-blue-600 px-3 py-1 rounded-md hover:bg-blue-500 transition-colors">
                           VALIDER
