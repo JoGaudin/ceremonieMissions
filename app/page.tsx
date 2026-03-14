@@ -54,8 +54,8 @@ const INITIAL_USERS_DATA: User[] = [
     missions: [
       { id: 1, text: 'Ne pas pécho de mecs', icon: <Flame className="text-orange-500" />, difficulty: 'Légendaire', successRate: '70%', done: false },
       { id: 10, text: 'Se souvenir de la soirée', icon: <Brain className="text-orange-500" />, difficulty: 'Cognitive', successRate: '50%', done: false },
-      { id: 17, text: 'Vomir dans les jaricones de la terrasse', icon: <Waves className='text-orange-500" />, difficulty: 'Sécurité', successRate: '10%', done: false},
-      { id: 20, text: 'Ne pas perdre son permis', icon: <Waves className='text-orange-500' />, difficulty: 'Impossible', successRate: 'Pas prévu', done: false }
+      { id: 17, text: 'Vomir dans les jaricones de la terrasse', icon: <Waves className='text-orange-500' />, difficulty: 'Sécurité', successRate: '10%', done: false},
+      { id: 20, text: 'Ne pas perdre son permis', icon: <Waves className='text-orange-500' />, difficulty: 'Impossible', successRate: '10%', done: false }
     ]
   },
   {
