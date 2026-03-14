@@ -127,7 +127,7 @@ const INITIAL_USERS_DATA: User[] = [
     xp: 700,
     avatar: 'AB',
     missions: [
-      { id: 8, text: 'Arriver avant 23h', icon: <Clock className="text-cyan-400" />, difficulty: false, successRate: '00%', done: true },
+      { id: 8, text: 'Arriver avant 23h', icon: <Clock className="text-cyan-400" />, difficulty: 'Contre-la-montre', successRate: '00%', done: true },
       { id: 15, text: 'Lancer les Corons', icon: <Music className="text-cyan-400" />, difficulty: 'Brassard', successRate: '55%', done: false }
     ]
   },
