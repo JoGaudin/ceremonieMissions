@@ -39,6 +39,7 @@ interface User {
   status: string;
   xp: number;
   avatar: string;
+  picture?: string; // Nouvelle propriété optionnelle
   missions: Mission[];
 }
 
@@ -50,6 +51,7 @@ const INITIAL_USERS_DATA: User[] = [
     status: 'En cours',
     xp: 1200,
     avatar: 'LR',
+    picture: '',
     missions: [
       { id: 1, text: 'Ne pas pécho de mecs', icon: <Flame className="text-orange-500" />, difficulty: 'Légendaire', successRate: '70%', done: false },
       { id: 10, text: 'Se souvenir de la soirée', icon: <Brain className="text-orange-500" />, difficulty: 'Cognitive', successRate: '50%', done: false }
@@ -62,6 +64,7 @@ const INITIAL_USERS_DATA: User[] = [
     status: 'Vigilant',
     xp: 850,
     avatar: 'SZ',
+    picture: '/sanchez.png',
     missions: [
       { id: 2, text: 'Ne pas boire plus d\'un verre de champagne', icon: <Wine className="text-yellow-400" />, difficulty: 'Difficile', successRate: '0%', done: false },
       { id: 11, text: 'Danser sur "Y QUE FUE"', icon: <Music className="text-yellow-400" />, difficulty: 'Media', successRate: '100%', done: false }
@@ -74,6 +77,7 @@ const INITIAL_USERS_DATA: User[] = [
     status: 'My fault',
     xp: 900,
     avatar: 'MT',
+    picture: '',
     missions: [
       { id: 3, text: 'Ne pas déchirer sa chemise', icon: <Shirt className="text-blue-400" />, difficulty: 'Modéré', successRate: '80%', done: false },
       { id: 4, text: 'Réussir à parler', icon: <Target className="text-green-400" />, difficulty: 'Épique', successRate: '100%', done: false }
@@ -86,6 +90,7 @@ const INITIAL_USERS_DATA: User[] = [
     status: 'Focus',
     xp: 1100,
     avatar: 'LK',
+    picture: '',
     missions: [
       { id: 5, text: 'Ne pas gamberger', icon: <Brain className="text-purple-400" />, difficulty: 'Impossible', successRate: '30%', done: false },
       { id: 14, text: 'Finir torse nu avec Tigrou', icon: <Cat className="text-purple-400" />, difficulty: 'Légendaire', successRate: '90%', done: false }
@@ -98,6 +103,7 @@ const INITIAL_USERS_DATA: User[] = [
     status: 'Calme',
     xp: 1500,
     avatar: 'JH',
+    picture: '',
     missions: [
       { id: 6, text: 'Ne pas se battre', icon: <Swords className="text-red-500" />, difficulty: 'Légendaire', successRate: '99%', done: false },
       { id: 13, text: 'Ne pas ken dans les toilettes', icon: <VenusAndMars className="text-red-500" />, difficulty: 'Impossible', successRate: '0,01%', done: false }
@@ -110,6 +116,7 @@ const INITIAL_USERS_DATA: User[] = [
     status: 'Protégée',
     xp: 2000,
     avatar: 'DN',
+    picture: '',
     missions: [
       { id: 7, text: 'Ne pas se faire toucher les fesses excepté Johan', icon: <Lock className="text-pink-400" />, difficulty: 'Haute Sécurité', successRate: '100%', done: false },
       { id: 12, text: 'Réussir à marcher avec ses talons en fin de soirée', icon: <Footprints className="text-pink-400" />, difficulty: 'Endurance', successRate: '80%', done: false }
@@ -122,6 +129,7 @@ const INITIAL_USERS_DATA: User[] = [
     status: 'En route',
     xp: 700,
     avatar: 'AB',
+    picture: '',
     missions: [
       { id: 8, text: 'Arriver avant 23h', icon: <Clock className="text-cyan-400" />, difficulty: 'Contre-la-montre', successRate: '0%', done: false },
       { id: 15, text: 'Lancer les Corons', icon: <Music className="text-cyan-400" />, difficulty: 'Brassard', successRate: '55%', done: false }
@@ -134,6 +142,7 @@ const INITIAL_USERS_DATA: User[] = [
     status: 'Bronzette',
     xp: 100,
     avatar: 'EM',
+    picture: '',
     missions: [
       { id: 9, text: 'Parler qu\'avec l\'accent du sud après 22h', icon: <Languages className="text-cyan-400" />, difficulty: 'Gaté', successRate: '80%', done: false },
       { id: 16, text: 'Se mettre une murge avec les darons', icon: <Wine className="text-cyan-400" />, difficulty: 'Légendaire', successRate: '100%', done: false }
@@ -190,7 +199,7 @@ const App: React.FC = () => {
             <button onClick={navigateHome} className="p-2 hover:bg-white/5 rounded-full transition-colors">
               <Home size={22} />
             </button>
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-purple-500 flex items-center justify-center text-[10px] font-bold border border-white/20">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-purple-500 flex items-center justify-center text-[10px] font-bold border border-white/20 overflow-hidden">
               YOU
             </div>
           </div>
@@ -204,7 +213,7 @@ const App: React.FC = () => {
             <div className="bg-gradient-to-br from-blue-600/20 to-purple-600/20 border border-white/10 rounded-2xl p-6 relative overflow-hidden">
               <div className="relative z-10">
                 <h2 className="text-2xl font-bold mb-2">Objectifs de la Soirée</h2>
-                <p className="text-slate-400 text-sm">7 Joueurs en ligne • 8 Missions actives</p>
+                <p className="text-slate-400 text-sm">{users.length} Joueurs en ligne • {users.reduce((acc, u) => acc + u.missions.length, 0)} Missions actives</p>
               </div>
               <div className="absolute top-[-20%] right-[-10%] opacity-10 rotate-12">
                 <Target size={150} />
@@ -214,7 +223,7 @@ const App: React.FC = () => {
             {/* User List */}
             <div className="space-y-3">
               <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-500 ml-1">Membres de l'escouade</h3>
-              {INITIAL_USERS_DATA.map((user) => (
+              {users.map((user) => (
                 <div
                   key={user.id}
                   onClick={() => navigateToUser(user)}
@@ -222,8 +231,12 @@ const App: React.FC = () => {
                 >
                   <div className="flex items-center gap-4">
                     <div className="relative">
-                      <div className="w-12 h-12 rounded-lg bg-slate-800 flex items-center justify-center font-bold text-blue-400 border border-white/10">
-                        {user.avatar}
+                      <div className="w-12 h-12 rounded-lg bg-slate-800 flex items-center justify-center font-bold text-blue-400 border border-white/10 overflow-hidden">
+                        {user.picture ? (
+                          <img src={user.picture} alt={user.name} className="w-full h-full object-cover" />
+                        ) : (
+                          user.avatar
+                        )}
                       </div>
                       <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-[#0a0a0c] rounded-full shadow-lg"></div>
                     </div>
@@ -256,8 +269,12 @@ const App: React.FC = () => {
             <div className="bg-[#121214] border border-white/10 rounded-2xl overflow-hidden">
               <div className="h-24 bg-gradient-to-r from-blue-600 to-purple-700"></div>
               <div className="px-6 pb-6 relative">
-                <div className="w-20 h-20 bg-slate-800 border-4 border-[#121214] rounded-2xl flex items-center justify-center font-bold text-2xl text-white absolute -top-10 shadow-2xl">
-                  {selectedUser?.avatar}
+                <div className="w-20 h-20 bg-slate-800 border-4 border-[#121214] rounded-2xl flex items-center justify-center font-bold text-2xl text-white absolute -top-10 shadow-2xl overflow-hidden">
+                  {selectedUser?.picture ? (
+                    <img src={selectedUser.picture} alt={selectedUser.name} className="w-full h-full object-cover" />
+                  ) : (
+                    selectedUser?.avatar
+                  )}
                 </div>
                 <div className="pt-12 flex justify-between items-start">
                   <div>
@@ -268,6 +285,7 @@ const App: React.FC = () => {
                     {selectedUser?.status}
                   </div>
                 </div>
+                {/* ... suite du composant (XP, Missions, etc.) ... */}
                 <div className="mt-4 flex gap-6 border-t border-white/5 pt-4">
                   <div>
                     <p className="text-[10px] uppercase text-slate-500 font-bold">Niveau</p>
@@ -294,8 +312,8 @@ const App: React.FC = () => {
                 <div
                   key={mission.id}
                   className={`p-5 rounded-r-xl group transition-all duration-300 border-y border-r ${mission.done
-                      ? "bg-[#121214]/50 border-l-4 border-l-green-500 border-white/5 opacity-80"
-                      : "bg-[#121214] border-l-4 border-l-blue-500 border-white/5"
+                    ? "bg-[#121214]/50 border-l-4 border-l-green-500 border-white/5 opacity-80"
+                    : "bg-[#121214] border-l-4 border-l-blue-500 border-white/5"
                     }`}
                 >
                   <div className="flex gap-4">
@@ -310,8 +328,8 @@ const App: React.FC = () => {
                           Objectif Principal
                         </span>
                         <span className={`text-[10px] font-bold px-2 py-0.5 rounded border italic ${mission.done
-                            ? "bg-green-500/10 text-green-500 border-green-500/20"
-                            : "bg-red-500/10 text-red-400 border-red-500/20"
+                          ? "bg-green-500/10 text-green-500 border-green-500/20"
+                          : "bg-red-500/10 text-red-400 border-red-500/20"
                           }`}>
                           {mission.done ? "COMPLÉTÉ" : mission.difficulty}
                         </span>
@@ -352,7 +370,6 @@ const App: React.FC = () => {
         )}
       </main>
 
-      {/* Footer / Status Bar */}
       <footer className="fixed bottom-0 w-full bg-[#0a0a0c] border-t border-white/5 p-4 z-40">
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2 text-[10px] font-mono text-slate-500 uppercase">
