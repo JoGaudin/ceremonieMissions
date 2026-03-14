@@ -18,7 +18,8 @@ import {
   Music,
   Footprints,
   VenusAndMars,
-  Cat
+  Cat,
+  CheckCircle2Icon
 } from 'lucide-react';
 
 // Définition des interfaces pour le typage
@@ -28,6 +29,7 @@ interface Mission {
   icon: React.ReactNode;
   difficulty: string;
   successRate: string;
+  done: boolean;
 }
 
 interface User {
@@ -40,7 +42,7 @@ interface User {
   missions: Mission[];
 }
 
-const USERS_DATA: User[] = [
+const INITIAL_USERS_DATA: User[] = [
   {
     id: 'laurine',
     name: 'Laurine',
@@ -49,8 +51,8 @@ const USERS_DATA: User[] = [
     xp: 1200,
     avatar: 'LR',
     missions: [
-      { id: 1, text: 'Ne pas pécho de mecs', icon: <Flame className="text-orange-500" />, difficulty: 'Légendaire', successRate: '70%' },
-      { id: 10, text: 'Se souvenir de la soirée', icon: <Brain className="text-orange-500" />, difficulty: 'Cognitive', successRate: '50%' }
+      { id: 1, text: 'Ne pas pécho de mecs', icon: <Flame className="text-orange-500" />, difficulty: 'Légendaire', successRate: '70%', done: false },
+      { id: 10, text: 'Se souvenir de la soirée', icon: <Brain className="text-orange-500" />, difficulty: 'Cognitive', successRate: '50%', done: false }
     ]
   },
   {
@@ -61,8 +63,8 @@ const USERS_DATA: User[] = [
     xp: 850,
     avatar: 'SZ',
     missions: [
-      { id: 2, text: 'Ne pas boire plus d\'un verre de champagne', icon: <Wine className="text-yellow-400" />, difficulty: 'Difficile', successRate: '0%' },
-      { id: 11, text: 'Danser sur "Y QUE FUE"', icon: <Music className="text-yellow-400" />, difficulty: 'Media', successRate: '100%' }
+      { id: 2, text: 'Ne pas boire plus d\'un verre de champagne', icon: <Wine className="text-yellow-400" />, difficulty: 'Difficile', successRate: '0%', done: false },
+      { id: 11, text: 'Danser sur "Y QUE FUE"', icon: <Music className="text-yellow-400" />, difficulty: 'Media', successRate: '100%', done: false }
     ]
   },
   {
@@ -73,8 +75,8 @@ const USERS_DATA: User[] = [
     xp: 900,
     avatar: 'MT',
     missions: [
-      { id: 3, text: 'Ne pas déchirer sa chemise', icon: <Shirt className="text-blue-400" />, difficulty: 'Modéré', successRate: '80%' },
-      { id: 4, text: 'Réussir à parler', icon: <Target className="text-green-400" />, difficulty: 'Épique', successRate: '100%' }
+      { id: 3, text: 'Ne pas déchirer sa chemise', icon: <Shirt className="text-blue-400" />, difficulty: 'Modéré', successRate: '80%', done: false },
+      { id: 4, text: 'Réussir à parler', icon: <Target className="text-green-400" />, difficulty: 'Épique', successRate: '100%', done: false }
     ]
   },
   {
@@ -85,8 +87,8 @@ const USERS_DATA: User[] = [
     xp: 1100,
     avatar: 'LK',
     missions: [
-      { id: 5, text: 'Ne pas gamberger', icon: <Brain className="text-purple-400" />, difficulty: 'Impossible', successRate: '30%' },
-      { id: 14, text: 'Finir torse nu avec Tigrou', icon: <Cat className="text-purple-400" />, difficulty: 'Légendaire', successRate: '90%' }
+      { id: 5, text: 'Ne pas gamberger', icon: <Brain className="text-purple-400" />, difficulty: 'Impossible', successRate: '30%', done: false },
+      { id: 14, text: 'Finir torse nu avec Tigrou', icon: <Cat className="text-purple-400" />, difficulty: 'Légendaire', successRate: '90%', done: false }
     ]
   },
   {
@@ -97,8 +99,8 @@ const USERS_DATA: User[] = [
     xp: 1500,
     avatar: 'JH',
     missions: [
-      { id: 6, text: 'Ne pas se battre', icon: <Swords className="text-red-500" />, difficulty: 'Légendaire', successRate: '99%' },
-      { id: 13, text: 'Ne pas ken dans les toilettes', icon: <VenusAndMars className="text-red-500" />, difficulty: 'Impossible', successRate: '0,01%' }
+      { id: 6, text: 'Ne pas se battre', icon: <Swords className="text-red-500" />, difficulty: 'Légendaire', successRate: '99%', done: false },
+      { id: 13, text: 'Ne pas ken dans les toilettes', icon: <VenusAndMars className="text-red-500" />, difficulty: 'Impossible', successRate: '0,01%', done: false }
     ]
   },
   {
@@ -109,8 +111,8 @@ const USERS_DATA: User[] = [
     xp: 2000,
     avatar: 'DN',
     missions: [
-      { id: 7, text: 'Ne pas se faire toucher les fesses excepté Johan', icon: <Lock className="text-pink-400" />, difficulty: 'Haute Sécurité', successRate: '100%' },
-      { id: 12, text: 'Réussir à marcher avec ses talons en fin de soirée', icon: <Footprints className="text-pink-400" />, difficulty: 'Endurance', successRate: '80%' }
+      { id: 7, text: 'Ne pas se faire toucher les fesses excepté Johan', icon: <Lock className="text-pink-400" />, difficulty: 'Haute Sécurité', successRate: '100%', done: false },
+      { id: 12, text: 'Réussir à marcher avec ses talons en fin de soirée', icon: <Footprints className="text-pink-400" />, difficulty: 'Endurance', successRate: '80%', done: false }
     ]
   },
   {
@@ -121,8 +123,8 @@ const USERS_DATA: User[] = [
     xp: 700,
     avatar: 'AB',
     missions: [
-      { id: 8, text: 'Arriver avant 23h', icon: <Clock className="text-cyan-400" />, difficulty: 'Contre-la-montre', successRate: '0%' },
-      { id: 15, text: 'Lancer les Corons', icon: <Music className="text-cyan-400" />, difficulty: 'Brassard', successRate: '55%' }
+      { id: 8, text: 'Arriver avant 23h', icon: <Clock className="text-cyan-400" />, difficulty: 'Contre-la-montre', successRate: '0%', done: false },
+      { id: 15, text: 'Lancer les Corons', icon: <Music className="text-cyan-400" />, difficulty: 'Brassard', successRate: '55%', done: false }
     ]
   },
   {
@@ -133,24 +135,41 @@ const USERS_DATA: User[] = [
     xp: 100,
     avatar: 'EM',
     missions: [
-      { id: 9, text: 'Parler qu\'avec l\'accent du sud après 22h', icon: <Languages className="text-cyan-400" />, difficulty: 'Gaté', successRate: '80%' },
-      { id: 16, text: 'Se mettre une murge avec les darons', icon: <Wine className="text-cyan-400" />, difficulty: 'Légendaire', successRate: '100%' }
+      { id: 9, text: 'Parler qu\'avec l\'accent du sud après 22h', icon: <Languages className="text-cyan-400" />, difficulty: 'Gaté', successRate: '80%', done: false },
+      { id: 16, text: 'Se mettre une murge avec les darons', icon: <Wine className="text-cyan-400" />, difficulty: 'Légendaire', successRate: '100%', done: false }
     ]
   }
 ];
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<'home' | 'profile'>('home');
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [users, setUsers] = useState<User[]>(INITIAL_USERS_DATA);
+  const selectedUser = users.find(u => u.id === selectedUserId) || null;
 
   const navigateToUser = (user: User) => {
-    setSelectedUser(user);
+    setSelectedUserId(user.id);
     setCurrentPage('profile');
   };
 
   const navigateHome = () => {
     setCurrentPage('home');
-    setSelectedUser(null);
+    setSelectedUserId(null);
+  };
+
+  const handleValidateMission = (userId: string, missionId: number) => {
+    setUsers(currentUsers =>
+      currentUsers.map(user => {
+        if (user.id !== userId) return user;
+
+        return {
+          ...user,
+          missions: user.missions.map(mission =>
+            mission.id === missionId ? { ...mission, done: true } : mission
+          )
+        };
+      })
+    );
   };
 
   return (
@@ -195,7 +214,7 @@ const App: React.FC = () => {
             {/* User List */}
             <div className="space-y-3">
               <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-500 ml-1">Membres de l'escouade</h3>
-              {USERS_DATA.map((user) => (
+              {INITIAL_USERS_DATA.map((user) => (
                 <div
                   key={user.id}
                   onClick={() => navigateToUser(user)}
@@ -210,7 +229,7 @@ const App: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="font-bold text-slate-100 group-hover:text-blue-400 transition-colors">{user.name}</h4>
-                      <p className="text-xs text-slate-500">{user.role} • {user.missions.length} Quête(s)</p>
+                      <p className="text-xs text-slate-500">{user.role} • {user.missions.filter(mission => mission.done).length}/{user.missions.length} Quête(s)</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -274,41 +293,60 @@ const App: React.FC = () => {
               {selectedUser?.missions.map((mission) => (
                 <div
                   key={mission.id}
-                  className="bg-[#121214] border-l-4 border-l-blue-500 border-y border-r border-white/5 p-5 rounded-r-xl group"
+                  className={`p-5 rounded-r-xl group transition-all duration-300 border-y border-r ${mission.done
+                      ? "bg-[#121214]/50 border-l-4 border-l-green-500 border-white/5 opacity-80"
+                      : "bg-[#121214] border-l-4 border-l-blue-500 border-white/5"
+                    }`}
                 >
                   <div className="flex gap-4">
-                    <div className="mt-1 p-3 bg-white/5 rounded-lg flex items-center justify-center">
+                    <div className={`mt-1 p-3 rounded-lg flex items-center justify-center transition-colors ${mission.done ? "bg-green-500/10 text-green-500" : "bg-white/5"
+                      }`}>
                       {mission.icon}
                     </div>
+
                     <div className="flex-1">
                       <div className="flex justify-between items-start mb-1">
-                        <span className="text-[10px] font-bold uppercase tracking-tighter text-slate-500">Objectif Principal</span>
-                        <span className="text-[10px] font-bold bg-red-500/10 text-red-400 px-2 py-0.5 rounded border border-red-500/20 italic">
-                          {mission.difficulty}
+                        <span className="text-[10px] font-bold uppercase tracking-tighter text-slate-500">
+                          Objectif Principal
+                        </span>
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded border italic ${mission.done
+                            ? "bg-green-500/10 text-green-500 border-green-500/20"
+                            : "bg-red-500/10 text-red-400 border-red-500/20"
+                          }`}>
+                          {mission.done ? "COMPLÉTÉ" : mission.difficulty}
                         </span>
                       </div>
-                      <p className="text-lg font-semibold leading-tight group-hover:text-blue-400 transition-colors">
+
+                      <p className={`text-lg font-semibold leading-tight transition-colors ${mission.done ? "text-slate-400 line-through decoration-green-500/50" : "group-hover:text-blue-400"
+                        }`}>
                         {mission.text}
                       </p>
+
                       <div className="mt-4 flex items-center justify-between">
                         <div className="flex items-center gap-1 text-[10px] text-slate-500">
                           <ShieldAlert size={12} />
                           <span>Taux de réussite : {mission.successRate}</span>
                         </div>
-                        <button className="text-[10px] font-bold text-white bg-blue-600 px-3 py-1 rounded-md hover:bg-blue-500 transition-colors">
-                          VALIDER
-                        </button>
+
+                        {!mission.done ? (
+                          <button
+                            onClick={() => handleValidateMission(selectedUser.id, mission.id)}
+                            className="text-[10px] font-bold text-white bg-blue-600 px-3 py-1 rounded hover:bg-blue-500 transition-all shadow-lg shadow-blue-900/20"
+                          >
+                            VALIDER
+                          </button>
+                        ) : (
+                          <div className="flex flex-col items-end">
+                            <span className="text-[10px] font-bold text-green-500 flex items-center gap-1 bg-green-500/10 px-2 py-1 rounded">
+                              <CheckCircle2Icon size={12} /> MISSION RÉUSSIE
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
-            </div>
-
-            {/* LinkedIn Style Interaction */}
-            <div className="bg-[#121214] border border-white/5 rounded-xl p-4 flex items-center justify-between">
-              <p className="text-xs text-slate-400 italic">Voulez-vous féliciter {selectedUser?.name} pour sa progression ?</p>
-              <button className="text-xs font-bold text-blue-400 hover:underline">Recommander</button>
             </div>
           </div>
         )}
@@ -322,7 +360,7 @@ const App: React.FC = () => {
             Server: Soirée_v1.0.4
           </div>
           <div className="text-[10px] font-mono text-slate-500 uppercase">
-            Quest Progress: 12%
+            Quest Progress: {((users.filter(user => user.missions.every(mission => mission.done)).length) / (users.length)) * 100}%
           </div>
         </div>
       </footer>
